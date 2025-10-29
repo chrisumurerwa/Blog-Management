@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: Blog-Management
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    password: chris2020
+    username: postgres
+    url:  jdbc:postgresql://localhost:5432/Blog-Management
+
+
+  jpa:
+    properties:
+      hibernate:
+        format_sql:  true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+#  data:
+#    mongodb:
+#      uri: mongodb://localhost:27017/Blog-Management
+server:
+  port: 8082
