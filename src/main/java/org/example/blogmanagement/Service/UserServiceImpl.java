@@ -41,6 +41,27 @@ public class UserServiceImpl implements UserService {
         return mapToDto(user);
     }
 
+    @Override
+    public UserDto updateUser(Long id, User userDetails) {
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
+        // Update allowed fields
+        existingUser.setUsername(userDetails.getUsername());
+        existingUser.setEmail(userDetails.getEmail());
+
+        // Optional: only update password if provided
+        if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
+            existingUser.setPassword(userDetails.getPassword());
+        }
+
+        // Save updated user
+        User updatedUser = userRepository.save(existingUser);
+
+        // Return DTO without password
+        return mapToDto(updatedUser);
+    }
+
     //  Delete
     @Override
     public void deleteUser(Long id) {

@@ -15,6 +15,8 @@ public class Post {
     private String id;
     private String title;
     private String content;
-    private String authorId;
+    private String author;
+
+
 
 }
