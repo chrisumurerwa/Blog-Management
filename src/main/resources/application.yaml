@@ -16,8 +16,8 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-#  data:
-#    mongodb:
-#      uri: mongodb://localhost:27017/Blog-Management
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/Blog-Management
 server:
   port: 8082
