@@ -1,11 +1,9 @@
 package org.example.blogmanagement.Service;
 
 import org.example.blogmanagement.Dto.PostDto;
-import org.example.blogmanagement.Dto.UserDto;
 import org.example.blogmanagement.GlobalExceptionHandling.resourcesExistsException;
 import org.example.blogmanagement.Models.Post;
 import org.example.blogmanagement.Repository.PostRepository;
-import org.example.blogmanagement.Repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +22,9 @@ public class PostServiceImpl implements PostService {
     public PostDto createPost(Post post) {
 
 
-
+        if (postRepository.existsByAuthor(post.getAuthor())) {
+            throw new resourcesExistsException(" post  already exists: " + post.getAuthor());
+        }
 
         Post savedPost = postRepository.save(post);
         return mapToDto(savedPost);
