@@ -1,6 +1,7 @@
 package org.example.blogmanagement.Service;
 
 import org.example.blogmanagement.Dto.UserDto;
+import org.example.blogmanagement.GlobalExceptionHandling.resourcesExistsException;
 import org.example.blogmanagement.Models.User;
 import org.example.blogmanagement.Repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,12 @@ public class UserServiceImpl implements UserService {
     //  Create user and return DTO without password
     @Override
     public UserDto createUser(User user) {
+
+
+            //  Check if username already exists
+            if (userRepository.existsByUsername(user.getUsername())) {
+                throw new resourcesExistsException("Username already exists: " + user.getUsername());
+            }
         User savedUser = userRepository.save(user);
         return mapToDto(savedUser);
     }
