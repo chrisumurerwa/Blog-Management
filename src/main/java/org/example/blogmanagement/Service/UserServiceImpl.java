@@ -23,10 +23,10 @@ public class UserServiceImpl implements UserService {
     public UserDto createUser(User user) {
 
 
-            //  Check if username already exists
-            if (userRepository.existsByUsername(user.getUsername())) {
-                throw new resourcesExistsException("Username already exists: " + user.getUsername());
-            }
+        //  Check if username already exists
+        if (userRepository.existsByUsername(user.getUsername())) {
+            throw new resourcesExistsException("Username already exists: " + user.getUsername());
+        }
         User savedUser = userRepository.save(user);
         return mapToDto(savedUser);
     }
