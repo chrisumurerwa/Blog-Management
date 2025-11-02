@@ -1,10 +1,10 @@
-
 package org.example.blogmanagement.Service;
 
 import org.example.blogmanagement.Dto.PostDto;
 import org.example.blogmanagement.GlobalExceptionHandling.resourcesExistsException;
 import org.example.blogmanagement.Models.Post;
 import org.example.blogmanagement.Repository.PostRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,12 +21,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto createPost(Post post) {
-
-
         if (postRepository.existsByAuthor(post.getAuthor())) {
-            throw new resourcesExistsException(" post  already exists: " + post.getAuthor());
+            throw new resourcesExistsException("Post already exists: " + post.getAuthor());
         }
-
         Post savedPost = postRepository.save(post);
         return mapToDto(savedPost);
     }
@@ -64,7 +61,20 @@ public class PostServiceImpl implements PostService {
         postRepository.deleteById(id);
     }
 
+    //  Sorting method (no @GetMapping here)
+    @Override
+    public List<PostDto> getAllPostsSorted(String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        return postRepository.findAll(sort)
+                .stream()
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
     private PostDto mapToDto(Post post) {
-        return new PostDto(post.getId(), post.getTitle(), post.getContent(),post.getAuthor());
+        return new PostDto(post.getId(), post.getTitle(), post.getContent(), post.getAuthor());
     }
 }

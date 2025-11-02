@@ -51,4 +51,12 @@ public class PostController {
         postService.deletePost(id);
         return ResponseEntity.ok("Post deleted successfully");
     }
+    @GetMapping("/sorted")
+    public ResponseEntity<List<PostDto>> getAllPostsSorted(
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "desc") String sortDir) {
+        List<PostDto> sortedPosts = postService.getAllPostsSorted(sortBy, sortDir);
+        return ResponseEntity.ok(sortedPosts);
+    }
+
 }

@@ -11,4 +11,6 @@ public interface PostService {
     PostDto getPostById(String id);
     PostDto updatePost(String id, Post postDetails);
     void deletePost(String id);
+
+    List<PostDto> getAllPostsSorted(String sortBy, String sortDir);
 }
