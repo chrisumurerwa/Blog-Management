@@ -4,6 +4,10 @@ import org.example.blogmanagement.Dto.UserDto;
 import org.example.blogmanagement.GlobalExceptionHandling.resourcesExistsException;
 import org.example.blogmanagement.Models.User;
 import org.example.blogmanagement.Repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +25,7 @@ public class UserServiceImpl implements UserService {
     //  Create user and return DTO without password
     @Override
     public UserDto createUser(User user) {
-
-
-        //  Check if username already exists
+        // Check if username already exists
         if (userRepository.existsByUsername(user.getUsername())) {
             throw new resourcesExistsException("Username already exists: " + user.getUsername());
         }
@@ -48,6 +50,7 @@ public class UserServiceImpl implements UserService {
         return mapToDto(user);
     }
 
+    //  Update user
     @Override
     public UserDto updateUser(Long id, User userDetails) {
         User existingUser = userRepository.findById(id)
@@ -73,6 +76,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
+    }
+
+    // Pagination and Sorting
+    @Override
+    public Page<UserDto> getAllUsersPaginated(int pageNo, int pageSize, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.DESC.name()) ?
+                Sort.by(sortBy).ascending() :
+                Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(pageNo, pageSize, sort);
+
+        Page<User> userPage = userRepository.findAll(pageable);
+
+        return userPage.map(this::mapToDto);
     }
 
     // Helper method to hide password
