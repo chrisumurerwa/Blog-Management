@@ -22,14 +22,15 @@ public class PostController {
 
 
     @PostMapping("/create")
-    public ResponseEntity<PostDto> createPost(@RequestBody Post post) {
-        PostDto createdPost = postService.createPost(post);
+    public ResponseEntity<Post> createPost(@RequestBody PostDto postDto) {
+        Post createdPost = postService.createPost(postDto);
         return ResponseEntity.ok(createdPost);
     }
 
 
     @GetMapping
     public ResponseEntity<List<PostDto>> getAllPosts() {
+
         return ResponseEntity.ok(postService.getAllPosts());
     }
 

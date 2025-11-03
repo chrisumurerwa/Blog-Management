@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private String id;
     private String postId;
     private String text;

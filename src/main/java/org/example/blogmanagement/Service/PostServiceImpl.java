@@ -20,12 +20,17 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public PostDto createPost(Post post) {
-        if (postRepository.existsByAuthor(post.getAuthor())) {
-            throw new resourcesExistsException("Post already exists: " + post.getAuthor());
+    public Post createPost(PostDto postDto) {
+        if (postRepository.existsByAuthor(postDto.getAuthor())) {
+            throw new resourcesExistsException("Post already exists: " + postDto.getAuthor());
         }
-        Post savedPost = postRepository.save(post);
-        return mapToDto(savedPost);
+        Post post = new Post();
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        post.setAuthor(postDto.getAuthor());
+        postRepository.save(post);
+
+        return post;
     }
 
     @Override
@@ -75,6 +80,6 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostDto mapToDto(Post post) {
-        return new PostDto(post.getId(), post.getTitle(), post.getContent(), post.getAuthor());
+        return new PostDto( post.getTitle(), post.getContent(), post.getAuthor());
     }
 }

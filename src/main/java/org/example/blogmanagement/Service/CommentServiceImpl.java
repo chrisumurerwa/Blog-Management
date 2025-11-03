@@ -1,4 +1,5 @@
 package org.example.blogmanagement.Service;
+
 import org.example.blogmanagement.Dto.CommentDto;
 import org.example.blogmanagement.Models.Comment;
 import org.example.blogmanagement.Repository.CommentRepository;
@@ -17,12 +18,19 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public CommentDto createComment(Comment comment) {
+    public CommentDto createComment(CommentDto commentDto) {
+        // Create a new Comment entity from DTO
+        Comment comment = new Comment();
+        comment.setPostId(commentDto.getPostId());
+        comment.setText(commentDto.getText());
+        comment.setAuthor(commentDto.getAuthor());
+
+        // Save entity in DB
         Comment savedComment = commentRepository.save(comment);
+
+        // Convert entity back to DTO
         return mapToDto(savedComment);
     }
-
-
 
     @Override
     public List<CommentDto> getAllComment() {
@@ -59,7 +67,7 @@ public class CommentServiceImpl implements CommentService {
 
     private CommentDto mapToDto(Comment comment) {
         return new CommentDto(
-                comment.getId(),
+
                 comment.getPostId(),
                 comment.getText(),
                 comment.getAuthor()

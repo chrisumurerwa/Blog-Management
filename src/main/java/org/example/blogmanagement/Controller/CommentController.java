@@ -17,8 +17,8 @@ public class CommentController {
     }
 
     @PostMapping
-    public ResponseEntity<CommentDto> createComment(@RequestBody Comment comment) {
-        CommentDto createdComment = commentService.createComment(comment );
+    public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto comment) {
+        CommentDto createdComment = commentService.createComment(comment);
         return ResponseEntity.ok(createdComment);
     }
     @GetMapping

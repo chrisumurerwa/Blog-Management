@@ -4,20 +4,50 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    password: chris2020
+    url: jdbc:postgresql://localhost:5432/Blog-Management
     username: postgres
-    url:  jdbc:postgresql://localhost:5432/Blog-Management
-
+    password: chris2020
 
   jpa:
-    properties:
-      hibernate:
-        format_sql:  true
-    show-sql: true
     hibernate:
       ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
   data:
     mongodb:
       uri: mongodb://localhost:27017/Blog-Management
+
+
+# ACTUATOR CONFIGURATION
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,loggers,env,beans,threaddump,httptrace
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    enable:
+      all: true
+
+
+# LOGGING CONFIGURATION
+
+logging:
+  level:
+    root: INFO
+    org.example.blogmanagement: DEBUG   # show detailed logs from your app
+  file:
+    name: logs/blog-management.log       # log file location
+
+
+# SERVER CONFIGURATION
+
 server:
   port: 8082

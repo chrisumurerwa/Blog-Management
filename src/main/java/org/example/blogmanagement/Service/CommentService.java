@@ -6,7 +6,7 @@ import org.example.blogmanagement.Models.Comment;
 import java.util.List;
 
 public interface CommentService {
-    CommentDto createComment(Comment comment);
+    CommentDto createComment(CommentDto comment);
     List<CommentDto> getAllComment();
     CommentDto getCommentById(String id);
     CommentDto updateComment(String id, Comment comment);

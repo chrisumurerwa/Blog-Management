@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 
 public class CommentDto {
-    private String Id;
+
     private String postId;
     private String text;
     private String author;
