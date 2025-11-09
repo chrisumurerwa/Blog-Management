@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface PostService {
     Post createPost(PostDto post);
+
     List<PostDto> getAllPosts();
     PostDto getPostById(String id);
     PostDto updatePost(String id, Post postDetails);

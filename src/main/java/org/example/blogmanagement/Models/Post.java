@@ -14,7 +14,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 public class Post {
     @Id
-    private String id;
+    private String Post_id;
+    @Column(name = "user_id")
+    private Long user_id;
     private String title;
     private String content;
     private String author;

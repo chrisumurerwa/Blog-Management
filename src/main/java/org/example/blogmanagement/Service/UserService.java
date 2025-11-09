@@ -14,9 +14,9 @@ public interface UserService {
 
     List<UserDto> getAllUsers();
 
-    UserDto getUserById(Long id);
-    UserDto updateUser(Long id, User userDetails);
+    UserDto getUserById(Long User_id);
+    UserDto updateUser(Long User_id, User userDetails);
 
-    void deleteUser(Long id);
+    void deleteUser(Long User_id);
     Page<UserDto> getAllUsersPaginated(int pageNo, int pageSize, String sortBy, String sortDir);
 }

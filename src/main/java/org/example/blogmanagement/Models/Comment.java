@@ -17,7 +17,11 @@ public class Comment {
     @Id
 
     private String id;
-    private String postId;
+    private String user_id;
+    private String Post_id;
     private String text;
     private String author;
-}
+
+
+    }
+

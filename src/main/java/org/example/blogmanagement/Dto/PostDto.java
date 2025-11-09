@@ -9,6 +9,8 @@ import org.springframework.data.annotation.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostDto {
+    private Long user_id;
+
     private String title;
     private String content;
     private String author;
