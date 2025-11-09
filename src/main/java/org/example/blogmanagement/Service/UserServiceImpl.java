@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         }
 
         User savedUser = userRepository.save(user);
-        log.debug("User saved successfully with ID: {}", savedUser.getId());
+        log.debug("User saved successfully with ID: {}", savedUser.getUser_id());
         return mapToDto(savedUser);
     }
 
@@ -59,13 +59,13 @@ public class UserServiceImpl implements UserService {
 
     //  Get one user
     @Override
-    public UserDto getUserById(Long id) {
-        log.info("Fetching user with ID: {}", id);
+    public UserDto getUserById(Long User_id) {
+        log.info("Fetching user with ID: {}", User_id);
 
-        User user = userRepository.findById(id)
+        User user = userRepository.findById(User_id)
                 .orElseThrow(() -> {
-                    log.error("User not found with ID: {}", id);
-                    return new RuntimeException("User not found with id: " + id);
+                    log.error("User not found with ID: {}", User_id);
+                    return new RuntimeException("User not found with id: " + User_id);
                 });
 
         log.debug("User retrieved successfully: {}", user.getUsername());
@@ -74,25 +74,25 @@ public class UserServiceImpl implements UserService {
 
     //  Update user
     @Override
-    public UserDto updateUser(Long id, User userDetails) {
-        log.info("Updating user with ID: {}", id);
+    public UserDto updateUser(Long User_id, User userDetails) {
+        log.info("Updating user with ID: {}", User_id);
 
-        User existingUser = userRepository.findById(id)
+        User existingUser = userRepository.findById(User_id)
                 .orElseThrow(() -> {
-                    log.error("Update failed - user not found with ID: {}", id);
-                    return new RuntimeException("User not found with id: " + id);
+                    log.error("Update failed - user not found with ID: {}", User_id);
+                    return new RuntimeException("User not found with id: " + User_id);
                 });
 
         existingUser.setUsername(userDetails.getUsername());
         existingUser.setEmail(userDetails.getEmail());
 
         if (userDetails.getPassword() != null && !userDetails.getPassword().isEmpty()) {
-            log.debug("Password provided for update, updating password for user ID: {}", id);
+            log.debug("Password provided for update, updating password for user ID: {}", User_id);
             existingUser.setPassword(userDetails.getPassword());
         }
 
         User updatedUser = userRepository.save(existingUser);
-        log.info("User with ID {} updated successfully", id);
+        log.info("User with ID {} updated successfully", User_id);
 
         return mapToDto(updatedUser);
     }
@@ -131,6 +131,6 @@ public class UserServiceImpl implements UserService {
 
     // Helper method to hide password
     private UserDto mapToDto(User user) {
-        return new UserDto(user.getId(), user.getUsername(), user.getEmail());
+        return new UserDto(user.getUser_id(), user.getUsername(), user.getEmail());
     }
 }

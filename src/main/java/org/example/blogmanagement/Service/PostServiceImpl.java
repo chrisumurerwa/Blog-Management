@@ -2,8 +2,12 @@ package org.example.blogmanagement.Service;
 
 import org.example.blogmanagement.Dto.PostDto;
 import org.example.blogmanagement.GlobalExceptionHandling.resourcesExistsException;
+import org.example.blogmanagement.GlobalExceptionHandling.resourcesNotFoundException;
 import org.example.blogmanagement.Models.Post;
+import org.example.blogmanagement.Models.User;
 import org.example.blogmanagement.Repository.PostRepository;
+import org.example.blogmanagement.Repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +17,10 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService {
 
+    @Autowired
     private final PostRepository postRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     public PostServiceImpl(PostRepository postRepository) {
         this.postRepository = postRepository;
@@ -21,10 +28,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post createPost(PostDto postDto) {
+
+     User user = userRepository.findById(postDto.getUser_id()).orElseThrow(() -> new resourcesNotFoundException("User was not found"));
         if (postRepository.existsByAuthor(postDto.getAuthor())) {
             throw new resourcesExistsException("Post already exists: " + postDto.getAuthor());
         }
         Post post = new Post();
+        post.setUser_id(user.getUser_id());
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
         post.setAuthor(postDto.getAuthor());
@@ -80,6 +90,6 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostDto mapToDto(Post post) {
-        return new PostDto( post.getTitle(), post.getContent(), post.getAuthor());
+        return new PostDto(post.getUser_id(), post.getTitle(), post.getContent(), post.getAuthor());
     }
 }

@@ -21,7 +21,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDto createComment(CommentDto commentDto) {
         // Create a new Comment entity from DTO
         Comment comment = new Comment();
-        comment.setPostId(commentDto.getPostId());
+        comment.setPost_id(commentDto.getPostId());
         comment.setText(commentDto.getText());
         comment.setAuthor(commentDto.getAuthor());
 
@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
         Comment existingComment = commentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Comment not found with id: " + id));
 
-        existingComment.setPostId(commentDetails.getPostId());
+        existingComment.setPost_id(commentDetails.getPost_id());
         existingComment.setText(commentDetails.getText());
         existingComment.setAuthor(commentDetails.getAuthor());
 
@@ -68,7 +68,7 @@ public class CommentServiceImpl implements CommentService {
     private CommentDto mapToDto(Comment comment) {
         return new CommentDto(
 
-                comment.getPostId(),
+                comment.getPost_id(),
                 comment.getText(),
                 comment.getAuthor()
         );

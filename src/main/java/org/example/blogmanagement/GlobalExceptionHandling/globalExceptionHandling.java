@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class globalExceptionHandling {
-    @ExceptionHandler
+    @ExceptionHandler(value = resourcesNotFoundException.class)
     public ResponseEntity<String> resourceException(resourcesExistsException resource) {
         return new ResponseEntity<>(resource.getMessage(), HttpStatus.CONFLICT);
     }
