@@ -20,12 +20,14 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll() // allow register & login
                         .requestMatchers(
-                                "/swagger-ui/**",
-                                "/swagger-ui.html",
-                                "/v3/api-docs/**",
-                                "/swagger-resources/**",
+                                "/swagger-ui/**", //Swagger UI static resources
+                                "/swagger-ui.html", //Swagger UI main page
+                                "/v3/api-docs/**",  //OpenAPI documentation JSON
+                                "/swagger-resources/**", //JavaScript/CSS libraries used by Swagger
                                 "/webjars/**"
                         ).permitAll() // Allow Swagger UI access
+
+                        // Users must provide a valid JWT token to access these endpoints
                         .anyRequest().authenticated() // all other requests require auth
                 );
 
@@ -42,6 +44,7 @@ public class SecurityConfig {
 
     //  Password encoder used for encoding and matching passwords
     @Bean
+    //PasswordEncoder instance using BCrypt algorithm
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
